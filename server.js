@@ -1,6 +1,7 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const fileUpload = require('express-fileupload')
+const cookieParser = require('cookie-parser')
 const errorHandler = require('./middlewares/error')
 
 //Load Env vars
@@ -13,11 +14,15 @@ connectDB()
 //Route file
 const upload = require('./routes/upload')
 const cars = require('./routes/cars')
+const auth = require('./routes/auth')
 
 const app = express()
 
 //Body-parser
 app.use(express.json())
+
+// Cookie Parser
+app.use(cookieParser())
 
 //File-upload
 app.use(fileUpload({
@@ -28,6 +33,7 @@ app.use(fileUpload({
 //Mount routes
 app.use('/api/v1', upload)
 app.use('/api/v1/cars', cars)
+app.use('/api/v1/auth', auth)
 
 // ErrorHandler
 app.use(errorHandler)
