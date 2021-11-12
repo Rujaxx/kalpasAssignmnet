@@ -4,7 +4,9 @@ const { getCars, getCar, addCar, updateCar, deleteCar } = require('../controller
 
 const router = express.Router()
 
-router.route('/').get(getCars).post(addCar)
+const { protect, authorize} = require('../middlewares/auth')
+
+router.route('/').get(protect,authorize('user','admin'),getCars).post(protect,authorize('admin'),addCar)
 
 router.route('/:id').get(getCar).patch(updateCar).delete(deleteCar)
 
