@@ -12,6 +12,7 @@ connectDB()
 
 //Route file
 const upload = require('./routes/upload')
+const cars = require('./routes/cars')
 
 const app = express()
 
@@ -26,6 +27,7 @@ app.use(fileUpload({
 
 //Mount routes
 app.use('/api/v1', upload)
+app.use('/api/v1/cars', cars)
 
 // ErrorHandler
 app.use(errorHandler)
