@@ -1,6 +1,7 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const fileUpload = require('express-fileupload')
+const errorHandler = require('./middlewares/error')
 
 //Load Env vars
 dotenv.config({ path : './config/config.env'})
@@ -25,6 +26,9 @@ app.use(fileUpload({
 
 //Mount routes
 app.use('/api/v1', upload)
+
+// ErrorHandler
+app.use(errorHandler)
 
 //Port
 const PORT = process.env.PORT || 3000
