@@ -15,6 +15,7 @@ connectDB()
 const upload = require('./routes/upload')
 const cars = require('./routes/cars')
 const auth = require('./routes/auth')
+const users = require('./routes/users')
 
 const app = express()
 
@@ -34,6 +35,7 @@ app.use(fileUpload({
 app.use('/api/v1', upload)
 app.use('/api/v1/cars', cars)
 app.use('/api/v1/auth', auth)
+app.use('/api/v1/users', users)
 
 // ErrorHandler
 app.use(errorHandler)
