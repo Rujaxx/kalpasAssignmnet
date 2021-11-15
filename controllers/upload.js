@@ -1,19 +1,21 @@
 const Car = require('../models/Car')
 const csv = require('fast-csv')
+const asyncHandler = require('../middlewares/async')
+const ErrorResponse = require('../utils/errorResponse')
 
 // @desc Upload csv file
 // @route POST /api/v1/upload
 // @access PRIVATE
-exports.upload = async(req,res,next) => {
+exports.upload = asyncHandler(async(req,res,next) => {
     if(!req.files){
-        res.status(400).json({ success : false, message : 'Please add a file'})
+        return next( new ErrorResponse ('Please add a file',400))
     }
 
     const files = req.files.file;
 
     // // Make sure file is a CSV
     if(!files.mimetype.endsWith("csv")){
-       res.status(400).json({ success : false , message : "Please upload CSV file only"})
+        return next( new ErrorResponse ('Please add a csv file',400))
     }
 
     const cars = []
@@ -31,4 +33,4 @@ exports.upload = async(req,res,next) => {
         await Car.create(cars)
         res.status(201).json({ success : true, count : cars.length ,message : 'Data uploaded succefully'})
     })    
-}
+})

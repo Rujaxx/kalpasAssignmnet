@@ -4,6 +4,8 @@ const { upload } = require('../controllers/upload')
 
 const router = express.Router()
 
-router.route('/upload').post(upload)
+const { protect, authorize } = require('../middlewares/auth')
+
+router.route('/upload').post(protect,authorize('admin'),upload)
 
 module.exports = router
