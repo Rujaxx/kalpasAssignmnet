@@ -2,6 +2,12 @@ const express = require('express')
 const dotenv = require('dotenv')
 const fileUpload = require('express-fileupload')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
+const helmet = require('helmet')
+const hpp = require('hpp')
+const xss = require('xss-clean')
+const rateLimiter = require('express-rate-limit')
+const mongoSanitize = require('express-mongo-sanatize')
 const errorHandler = require('./middlewares/error')
 
 //Load Env vars
@@ -30,6 +36,29 @@ app.use(fileUpload({
     useTempFiles : true,
     tempFileDir : '/tmp/'
 }))
+
+// Mongo sanitize
+app.use(mongoSanitize())
+
+// Set security headers
+app.use(helmet())
+
+// Prevent XSS attacks
+app.use(xss())
+
+//Rate Limiting
+const limiter = rateLimiter({
+    windowMs : 10 * 60 * 1000, // 10 mins
+    max : 100
+})
+
+app.use(limiter())
+
+// Prevent HTTP param Pollution
+app.use(hpp())
+
+// Enable Cors
+app.use(cors())
 
 //Mount routes
 app.use('/api/v1', upload)

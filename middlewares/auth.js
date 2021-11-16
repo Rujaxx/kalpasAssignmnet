@@ -6,7 +6,6 @@ const User = require('../models/User')
 // Protect routes
 exports.protect = asyncHandler(async (req, res, next) => {
     let token
-    console.log('Hit')
   
     if (
       req.headers.authorization &&
