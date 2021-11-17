@@ -7,7 +7,7 @@ const helmet = require('helmet')
 const hpp = require('hpp')
 const xss = require('xss-clean')
 const rateLimiter = require('express-rate-limit')
-const mongoSanitize = require('express-mongo-sanatize')
+const mongoSanitize = require('express-mongo-sanitize')
 const errorHandler = require('./middlewares/error')
 
 //Load Env vars
@@ -52,7 +52,7 @@ const limiter = rateLimiter({
     max : 100
 })
 
-app.use(limiter())
+app.use(limiter)
 
 // Prevent HTTP param Pollution
 app.use(hpp())
